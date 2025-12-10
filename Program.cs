@@ -28,6 +28,7 @@ internal class Program
         });
         
         context.MakeCurrent();
+        context.Process();
 
 
         // Generate a buffer and source

@@ -41,6 +41,12 @@ internal class Program
         AL.Sourcei(sourceID, AL.AL_BUFFER, (int)bufferID);
 
 
+        // Move the source to the right
+        AL.Sourcei(sourceID, AL.AL_SOURCE_SPATIALIZE_SOFT, true);
+        AL.Sourcei(sourceID, AL.AL_SOURCE_RELATIVE, false);
+        AL.Source3f(sourceID, AL.AL_POSITION, 4, 0, 0);
+
+
         // Create a reverb effect
         uint effectID = AL.GenEffect();
         AL.Effecti(effectID, AL.AL_EFFECT_TYPE, AL.AL_EFFECT_EAXREVERB);
@@ -117,7 +123,7 @@ internal class Program
             AL.AuxiliaryEffectSloti(effectSlotID, AL.AL_EFFECTSLOT_EFFECT, (int)effectID);
 
             // Play the source
-            AL.Sourcei(sourceID, AL.AL_DIRECT_FILTER, (int)filterID);
+            //AL.Sourcei(sourceID, AL.AL_DIRECT_FILTER, (int)filterID);
             AL.Source3i(sourceID, AL.AL_AUXILIARY_SEND_FILTER, (int)effectSlotID, 0, 0);
             AL.SourcePlay(sourceID);
         }

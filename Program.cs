@@ -94,6 +94,12 @@ internal class Program
         AL.AuxiliaryEffectSloti(effectSlotID, AL.AL_EFFECTSLOT_EFFECT, (int)effectID);
 
 
+        // Create a filter to silence the dry path
+        uint filterID = AL.GenFilter();
+        AL.Filteri(filterID, AL.AL_FILTER_TYPE, AL.AL_FILTER_LOWPASS);
+        AL.Filterf(filterID, AL.AL_LOWPASS_GAIN, 0.0f);
+
+
         // Set up the listener
         AL.Listenerfv(AL.AL_POSITION, [ 0, 0, 0]);
         AL.Listenerfv(AL.AL_VELOCITY, [0, 0, 0]);
@@ -111,6 +117,7 @@ internal class Program
             AL.AuxiliaryEffectSloti(effectSlotID, AL.AL_EFFECTSLOT_EFFECT, (int)effectID);
 
             // Play the source
+            AL.Sourcei(sourceID, AL.AL_DIRECT_FILTER, (int)filterID);
             AL.Source3i(sourceID, AL.AL_AUXILIARY_SEND_FILTER, (int)effectSlotID, 0, 0);
             AL.SourcePlay(sourceID);
         }
